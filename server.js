@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
+const config = require('config');
 
 const app = express(); 
 const cors = require('cors');
@@ -11,6 +12,7 @@ app.use(cors());
 // Parse request body
 app.use(express.json({ extended: false})); 
 
+
 // DB Config and connect to Mongodb
 const connectDB = require('./config/connection');
 
@@ -18,6 +20,8 @@ connectDB();
 
 // use Routes
 app.use('/api/items', require('./route/api/items'));
+app.use('/api/users', require('./route/api/users'));
+app.use('/api/auth', require('./route/api/auth'));
 
 // Serve static assets in Production mode
 if ( process.env.NODE_ENV === 'production') {    

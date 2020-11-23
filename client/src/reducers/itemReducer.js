@@ -6,7 +6,7 @@
      loading: false
  }
 
- const ItemReducer = ( state = initialState,  action) => {
+ export default function ( state = initialState,  action) {
     switch (action.type) {
         case GET_ITEMS: 
             return {
@@ -34,5 +34,3 @@
             return state;
     }
  };
-
- export default ItemReducer;

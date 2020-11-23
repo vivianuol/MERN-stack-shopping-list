@@ -1,12 +1,16 @@
 const mongoose = require('mongoose');
+const config = require('config');
 
-const URI = 'mongodb+srv://dbUser:dbUser@cluster0.hgpvh.mongodb.net/mern_shopping?retryWrites=true&w=majority'
+
+// DB Config
+const db = config.get('mongoURI');
 
 
 const connectDB = async () => {
-    await mongoose.connect(URI, {
+    await mongoose.connect(db, {
         useUnifiedTopology: true,
-        useNewUrlParser: true
+        useNewUrlParser: true,
+        useCreateIndex: true
     });
     console.log('MongoDB connected...!');
 }
