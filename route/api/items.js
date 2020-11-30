@@ -9,8 +9,9 @@
  // @desc  Get all itmes
  // @access Public
 
- router.get('/', (req, res) => {
-     Item.find()
+ router.get('/', auth, (req, res) => {
+   //console.log({user_id: req.query.user_id})
+      Item.find( {user_id: req.query.user_id})
        .sort({ date: -1 })
        .then(items => res.json(items))
  });
@@ -24,7 +25,8 @@
       const newItem = new Item({
         _id: req.body._id,
         name: req.body.name,
-        category: req.body.category
+        category: req.body.category,
+        user_id: req.body.user_id
       })
 
       newItem.save().then(item => res.json(item));

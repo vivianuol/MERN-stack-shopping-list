@@ -6,7 +6,9 @@ import {
     LOGIN_SUCCESS,
     LOGOUT_SUCCESS,
     REGISTER_FAIL,
-    REGISTER_SUCCESS
+    REGISTER_SUCCESS,
+    ITEMS_LOADING,
+    ITEMS_LOADED
 } from '../actions/types';
 
 const initialState = {
@@ -36,9 +38,21 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 ...action.payload,
-                isAuthenticated: true,
-                isLoading: false
+                isAuthenticated: false,
+                isLoading: false,
+                token: action.payload.token
             };
+        case ITEMS_LOADING:
+            return {
+                ...state,
+                isAuthenticated: true,
+                isLoading: true
+            }
+        case ITEMS_LOADED:
+            return {
+                ...state,
+                isLoading: false
+            }
         case AUTH_ERROR:
         case LOGIN_FAIL:
         case LOGOUT_SUCCESS: 

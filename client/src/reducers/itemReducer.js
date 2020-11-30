@@ -1,4 +1,4 @@
- import { GET_ITEMS, ADD_ITEM, DELETE_ITEM, ITEMS_LOADING } from '../actions/types';
+ import { GET_ITEMS, ADD_ITEM, DELETE_ITEM, ITEMS_LOADING, LOGOUT_SUCCESS } from '../actions/types';
 
  
  const initialState = {
@@ -28,7 +28,13 @@
         case ITEMS_LOADING:
             return {
                 ...state,
-                loading: true
+                loading: true,
+            }
+        case LOGOUT_SUCCESS:
+            return {
+                ...state,
+                items: [],
+                loading: false
             }
         default: 
             return state;

@@ -6,12 +6,13 @@ import {
     LOGIN_FAIL,
     LOGOUT_SUCCESS,
     REGISTER_SUCCESS,
-    REGISTER_FAIL
+    REGISTER_FAIL,
+    ITEMS_LOADING
 } from "./types";
 import {returnErrors} from './errorActions';
 import axios from 'axios';
 
-const instance = axios.create({baseURL: 'http://192.168.0.24:3300'})
+const instance = axios.create({baseURL: 'http://192.168.0.25:3300'})
 
 // Check token & load user
 export const loadUser = () => (dispatch, getState) => {
@@ -72,10 +73,13 @@ export const login = ({ email, password}) => dispatch => {
     const body = JSON.stringify({ email, password });
 
     instance.post('/api/auth', body, config)
-       .then( res => {
-           dispatch({
+       .then( async (res) => {
+           await dispatch({
                type: LOGIN_SUCCESS,
                payload: res.data
+           })
+           dispatch({
+               type: ITEMS_LOADING
            })
        })
        .catch(err => {
@@ -98,6 +102,7 @@ export const logout  = () => dispatch => {
 export const tokenConfig = getState => {
      // Get token from localstorage
      const token = getState().auth.token;
+     //console.log("----->" + token)
 
      // Headers
      const config = {
@@ -110,6 +115,8 @@ export const tokenConfig = getState => {
      if (token) {
          config.headers['x-auth-token'] = token;
      }
+
+     //console.log(JSON.stringify(config))
 
      return config;
 

@@ -15,11 +15,14 @@ class ShoppingList extends Component {
     static propTypes = {
         getItems: PropTypes.func.isRequired,
         item: PropTypes.object.isRequired,
-        isAuthenticated: PropTypes.bool
+        isAuthenticated: PropTypes.bool,
+        user: PropTypes.object
     }
 
-    componentDidMount() {
-        this.props.getItems();
+    componentDidUpdate(prevProps, prevState) {
+        const { isAuthenticated, user } = this.props;
+
+        if (isAuthenticated !== prevProps.isAuthenticated && user !== null) { this.props.getItems(user.id); }
     }
 
     onDeleteClick = (_id) => {
@@ -33,9 +36,10 @@ class ShoppingList extends Component {
             <Container>
 
                 <ListGroup>
-                    <TransitionGroup className="shoppling-list">
-                        { isAuthenticated && items.map(item => (
-                            <CSSTransition key={item._id} timeout={300} classNames="fade">
+                    {isAuthenticated ?
+                        items.map(item => (
+                            <TransitionGroup key={item._id} className="shoppling-list">
+                                <CSSTransition timeout={300} classNames="fade">
                                     <ListGroupItem>
                                         <Button
                                             className="remove-btn"
@@ -48,9 +52,12 @@ class ShoppingList extends Component {
                                         <span className="m-2">{item.name}</span>
                                         <span className="m-2" style={{ fontSize: "13px" }}>{item.category}</span>
                                     </ListGroupItem>
-                            </CSSTransition>
-                        ))}
-                    </TransitionGroup>
+                                </CSSTransition>
+                            </TransitionGroup>
+                        ))
+                        :
+                        <h4 className="mb-3 ml-4">Please login to manage your list</h4>
+                    }
                 </ListGroup>
             </Container>
 
@@ -62,7 +69,8 @@ const mapStateToProps = (state) => {
     //  console.log({"itemsStateToProps": state.item})
     return ({
         item: state.item,
-        isAuthenticated: state.auth.isAuthenticated
+        isAuthenticated: state.auth.isAuthenticated,
+        user: state.auth.user,
     })
 }
 export default connect(mapStateToProps, { getItems, deleteItem })(ShoppingList);

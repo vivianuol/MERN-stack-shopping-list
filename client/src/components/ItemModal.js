@@ -21,7 +21,8 @@ class ItemModal extends Component {
     }
 
     static propTypes = {
-        isAuthenticated: PropTypes.bool  
+        isAuthenticated: PropTypes.bool,
+        user_id: PropTypes.string 
 
     }
 
@@ -40,7 +41,8 @@ class ItemModal extends Component {
 
         const newItem = {
             name: this.state.name,
-            category: this.state.category
+            category: this.state.category,
+            user_id: this.props.user ? this.props.user.id : ""
         }
 
         //console.log({"newItem": newItem});
@@ -58,15 +60,14 @@ class ItemModal extends Component {
         return (
             <div>
                 {
-                    isAuthenticated ?
+                    isAuthenticated &&
                 <Button
                     color="dark"
                     style={{marginBottom: '2rem'}}
                     onClick={this.toggle}
                 >
                     Add Item
-                </Button> :
-                <h4 className="mb-3 ml-4">Please login to manage your list</h4>
+                </Button> 
                 }
                 <Modal
                     isOpen={this.state.modal}
@@ -109,7 +110,8 @@ class ItemModal extends Component {
 const mapStateToProps = (state) => ({
     name: state.item.items.name,
     category: state.item.items.category,
-    isAuthenticated: state.auth.isAuthenticated
+    isAuthenticated: state.auth.isAuthenticated,
+    user: state.auth.user
 })
 
 

@@ -10,6 +10,9 @@ const ItemSchema = new Schema({
     category: {
         type: String
     },
+    user_id: {
+        type: String,
+    },
     date: {
         type: Date,
         default: Date.now
