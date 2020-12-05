@@ -11,7 +11,7 @@ const User = require('../../model/User');
 // @desc  Register new user
 // @access Public
 
-router.post('/', (req, res) => {
+router.post('/register', (req, res) => {
 
     const { name, email, password } = req.body;
     
@@ -48,7 +48,6 @@ router.post('/', (req, res) => {
                                 res.json({
                                     token: token,
                                     user: {
-                                        id: user.id,
                                         name: user.name,
                                         email: user.email
                                     }

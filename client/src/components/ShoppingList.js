@@ -21,7 +21,7 @@ class ShoppingList extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         const { isAuthenticated, user } = this.props;
-
+        //console.log({user: user })
         if (isAuthenticated !== prevProps.isAuthenticated && user !== null) { this.props.getItems(user.id); }
     }
 

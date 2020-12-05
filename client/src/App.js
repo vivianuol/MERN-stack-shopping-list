@@ -6,17 +6,10 @@ import { Container } from 'reactstrap';
 
 import { Provider } from 'react-redux';
 import store from './store';
-// here we need to get the user's token whenever app load, so that we can decide whether or not to allow 'hem to access data. 
-import { loadUser } from './actions/authActions';
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 class App extends Component {
-
-  componentDidMount() {
-    store.dispatch(loadUser());
-  }
 
   render() {
     return (

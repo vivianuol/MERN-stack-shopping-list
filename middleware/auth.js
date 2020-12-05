@@ -9,8 +9,9 @@ function auth (req, res, next) {
     
     try {
         // Verify token
-        const decoded = jwt.verify(token, 'cao');
+        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
         // Add user from payload
+        //console.log("decoded" + JSON.stringify(decoded));
         req.user = decoded;
         next();
     } catch (err) {

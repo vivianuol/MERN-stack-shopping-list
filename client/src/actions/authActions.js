@@ -45,7 +45,7 @@ export const register = ({ name, email, password }) => dispatch => {
      // Request body
      const body = JSON.stringify({ name, email, password });
 
-     instance.post('/api/users', body, config)
+     instance.post('/api/users/register', body, config)
         .then( res => {
             dispatch({
                 type: REGISTER_SUCCESS,
@@ -72,15 +72,13 @@ export const login = ({ email, password}) => dispatch => {
     // Request body
     const body = JSON.stringify({ email, password });
 
-    instance.post('/api/auth', body, config)
+    instance.post('/api/auth/login', body, config)
        .then( async (res) => {
            await dispatch({
                type: LOGIN_SUCCESS,
                payload: res.data
            })
-           dispatch({
-               type: ITEMS_LOADING
-           })
+           dispatch(loadUser());
        })
        .catch(err => {
            dispatch(returnErrors(err.response.data, err.response.status, 'LOGIN_FAIL'))

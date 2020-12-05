@@ -12,7 +12,7 @@ const User = require('../../model/User');
 // @desc  Autheticate user
 // @access Public
 
-router.post('/', (req, res) => {
+router.post('/login', (req, res) => {
 
     const { email, password } = req.body;
     
@@ -26,6 +26,7 @@ router.post('/', (req, res) => {
         .then( user => {
             if (!user) return res.status(401).json({ msg: 'User not exists' }); 
 
+            //console.log("user:" + user);
         // Validate password  
         // 第一个是用户输入，第二个是数据库中的user.password
         bcrypt.compare(password, user.password)
@@ -35,17 +36,12 @@ router.post('/', (req, res) => {
                 })
 
                 jwt.sign(
-                    {id: user.id },
-                    'cao',
+                    {id: user._id},
+                    process.env.ACCESS_TOKEN_SECRET,
                     (err, token) => {
                         if (err) throw err;
                         res.json({
-                            token: token,
-                            user: {
-                                id: user.id,
-                                name: user.name,
-                                email: user.email
-                            }
+                            token: token
                         })
                     }
 
